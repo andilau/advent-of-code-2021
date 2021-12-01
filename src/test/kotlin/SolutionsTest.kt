@@ -3,14 +3,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
+import util.InputReader
 
 @DisplayName("Solutions")
 class SolutionsTest {
-    private val input = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
 
     @TestFactory
     fun testAdventOfCode() = listOf(
-        Day1(input) to Pair(45, 362_880),
+        Day1(InputReader.getInputAsListOfInt(1)) to Pair(1583, 1627),
     )
         .map { (day, answers) ->
             DynamicTest.dynamicTest("${day.javaClass.simpleName} -> ${answers.first} / ${answers.second}") {

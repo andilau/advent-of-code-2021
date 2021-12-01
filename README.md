@@ -4,6 +4,10 @@ Starter template for solving [Advent of Code](https://adventofcode.com/) in [Kot
 Advent of Code is an Advent calendar of small programming puzzles by [Eric Wastl](http://was.tl/). 
 Based on [aoc-kotlin-starter](https://github.com/hughjdavey/aoc-kotlin-starter) template by [Hugh Davey](https://github.com/hughjdavey).
 
+### Solutions
+
+- Day 1: [Sonar Sweep](https://adventofcode.com/2021/day/1) 🧹 [Day1.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day1.kt)
+
 ### Features
 
 * Gradle setup so you can run a specific day or all days on the command line (see **Running**)

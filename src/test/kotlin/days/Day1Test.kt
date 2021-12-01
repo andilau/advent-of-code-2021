@@ -7,33 +7,49 @@ import org.junit.jupiter.api.Test
 
 @DisplayName("Day 1")
 class Day1Test {
-    val ints = listOf(1, 2, 3)
-
     @Nested
     @DisplayName("Part 1")
     inner class Part1 {
-        @Test
-        fun shouldReturnSumOfEmptyList() {
-            assertThat(Day1(emptyList()).partOne()).isEqualTo(0)
-        }
+        private val measurements = """
+            199
+            200
+            208
+            210
+            200
+            207
+            240
+            269
+            260
+            263
+            """.trimIndent().lines().map(String::toInt)
 
         @Test
-        fun shouldReturnSumOfSimpleList() {
-            assertThat(Day1(ints).partOne()).isEqualTo(6)
+        fun measurementsShouldIncrease7Times() {
+            assertThat(Day1(measurements).partOne()).isEqualTo(7)
         }
     }
 
     @Nested
     @DisplayName("Part 2")
     inner class Part2 {
-        @Test
-        fun shouldReturnProductOfEmptyList() {
-            assertThat(Day1(emptyList()).partTwo()).isEqualTo(1)
-        }
+        val measurements = """
+            199  A      
+            200  A B    
+            208  A B C  
+            210    B C D
+            200  E   C D
+            207  E F   D
+            240  E F G  
+            269    F G H
+            260      G H
+            263        H
+            """.trimIndent().lines()
+            .map { it.substringBefore(" ") }
+            .map(String::toInt)
 
         @Test
-        fun shouldReturnProductOfSimpleList() {
-            assertThat(Day1(ints).partTwo()).isEqualTo(6)
+        fun measurementsWindowedWithSumsShouldIncrease5Times() {
+            assertThat(Day1(measurements).partTwo()).isEqualTo(5)
         }
     }
 }
