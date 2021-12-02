@@ -3,7 +3,7 @@ package days
 @AdventOfCodePuzzle(
     name = "Sonar Sweep",
     url = "https://adventofcode.com/2021/day/1",
-    date = Date(day = 1, year = 2001)
+    date = Date(day = 1, year = 2021)
 )
 class Day1(private val measurements: List<Int>) : Puzzle {
 
