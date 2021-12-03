@@ -3,13 +3,13 @@
 My solutions for [Advent of Code 2021](https://adventofcode.com/2021) in the [Kotlin](https://kotlinlang.org/)
 programming language. Advent of Code is an Advent calendar of small programming puzzles by [Eric Wastl](http://was.tl/).
 
-### Solutions
+## Solutions
 
 - Day 1: [Sonar Sweep](https://adventofcode.com/2021/day/1) 🧹 [Day1.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day1.kt)
 - Day 2: [Dive!](https://adventofcode.com/2021/day/2) ⬇ [Day2.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day2.kt)
 - Day 3: [Binary Diagnostic](https://adventofcode.com/2021/day/3) 🩺 [Day3.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day3.kt)
 
-### Features
+## Features
 
 * Gradle setup so you can run a specific day or all days on the command line (see **Running**)
 * Timings for each part of each day
@@ -17,7 +17,7 @@ programming language. Advent of Code is an Advent calendar of small programming 
 * [Junit 5](https://junit.org/junit5/) and [AssertJ](https://assertj.github.io/doc/) test libraries included (see **Testing**)
 * Starter .gitignore
 
-### Running
+## Running
 
 Project is already setup with gradle. To run the app:
 
@@ -26,7 +26,7 @@ Project is already setup with gradle. To run the app:
 * Run `./gradlew run --args $DAY` where `$DAY` is an integer to run a specific day
 * Run `./gradlew run --args "$DAY1 $DAY2 $ANOTHERDAY"` to run a subset of days
 
-### Testing
+## Testing
 
 Project includes JUnit and AssertJ and a stub unit test to get you going. To run all tests:
 
@@ -40,7 +40,7 @@ into `src/test/resources` if you want to test the actual answers, or you could a
 examples given on the Advent of Code description for the day. The stub `Day1Test` class shows a test of the
 functionality of `Day1` where the test input differs from the actual input.
 
-### Architecture
+## Architecture
 
 * Inputs go into `src/main/resources` and follow the naming convention `input_day_X.txt`
 * Solutions go into `src/main/kotlin/days` and implement the `Puzzle` interface
