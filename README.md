@@ -7,6 +7,7 @@ programming language. Advent of Code is an Advent calendar of small programming 
 
 - Day 1: [Sonar Sweep](https://adventofcode.com/2021/day/1) 🧹 [Day1.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day1.kt)
 - Day 2: [Dive!](https://adventofcode.com/2021/day/2) ⬇ [Day2.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day2.kt)
+- Day 3: [Binary Diagnostic](https://adventofcode.com/2021/day/3) 🩺 [Day3.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day3.kt)
 
 ### Features
 
