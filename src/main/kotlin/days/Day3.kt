@@ -21,12 +21,12 @@ class Day3(private val report: List<String>) : Puzzle {
         return oxygenGeneratorRating * co2ScrubberRating
     }
 
-    private fun Collection<String>.calculateRate(findCriteria: List<Char>.() -> Char) =
+    private inline fun Collection<String>.calculateRate(findCriteria: List<Char>.() -> Char) =
         first().indices
             .map { at -> this.map { line -> line[at] }.findCriteria() }
             .joinToString("")
 
-    private fun Collection<String>.findRating(criteria: List<Char>.() -> Char): String {
+    private inline fun Collection<String>.findRating(criteria: List<Char>.() -> Char): String {
         val candidates = this.toMutableList()
         for (index in first().indices) {
             val wanted: Char = candidates.map { it[index] }.criteria()
