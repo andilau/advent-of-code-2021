@@ -8,14 +8,12 @@ package days
 class Day1(private val measurements: List<Int>) : Puzzle {
 
     override fun partOne(): Int =
-        measurements
-            .zipWithNext()
-            .count { it.first < it.second }
+        measurements.increasesTimes { it }
 
     override fun partTwo() =
-        measurements
-            .windowed(3)
-            .map { it.sum() }
-            .zipWithNext()
-            .count { it.first < it.second }
+        measurements.increasesTimes { it -> it.windowed(3).map { it.sum() } }
+
+    private fun <T> List<T>.increasesTimes(transform: (List<T>) -> List<T>)
+            where T : Comparable<T>, T : Number =
+        transform.invoke(this).zipWithNext().count { it.first < it.second }
 }
