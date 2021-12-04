@@ -6,80 +6,73 @@ package days
     date = Date(day = 4, year = 2021)
 )
 class Day4(input: List<String>) : Puzzle {
-    private val drawnNumbers = input.first().split(',').map(String::toInt)
+    private val draws = input.first().split(',').map(String::toInt)
+    private val boards = readBoards(input)
 
-    private val boards = input
+    override fun partOne(): Int =
+        draws.firstNotNullOf { draw ->
+            boards
+                .firstOrNull { board -> board.markForBingo(draw) }
+                ?.let { draw * it.unmarked().sum() }
+        }
+
+    override fun partTwo(): Int =
+        boards
+            .associateWith { board -> draws.first { board.markForBingo(it) } }
+            .maxByOrNull { draws.indexOf(it.value) }
+            ?.let { it.key.unmarked().sum() * it.value }
+            ?: error("")
+
+    private fun readBoards(input: List<String>) = input
+        .asSequence()
         .drop(1)
-        .chunked(6)
-        .map { it.joinToString(" ") }
         .filter { it.isNotEmpty() }
+        .chunked(5) { it.joinToString(" ") }
         .map { BingoBoard.from(it) }
-        .toList()
+        .toSet()
 
-    override fun partOne(): Int {
-        drawnNumbers.forEach { number ->
-            boards.forEach { board ->
-                if (board.mark(number)) {
-                    return number * board.notMarkedSum()
-                }
-            }
-        }
-        return 0
-    }
-
-    override fun partTwo(): Int {
-        val notWon = boards.toMutableSet()
-
-        drawnNumbers.forEach { number ->
-            val looser = notWon.first()
-            boards.forEach { board ->
-                if (board.mark(number)) {
-                    notWon.remove(board)
-                }
-            }
-            if (notWon.size == 0) {
-                return number * looser.notMarkedSum()
-            }
-        }
-        return 0
-    }
-
-    data class BingoBoard(val array: List<Int>) {
+    data class BingoBoard(val numbers: List<Int>) {
         private val marked = mutableSetOf<Int>()
 
         init {
-            require(array.size == 25)
+            require(numbers.size == 25)
         }
 
-        fun mark(number: Int): Boolean {
+        fun markForBingo(number: Int): Boolean {
             marked += number
-            val index = array.indexOf(number)
-            return ranges
-                .filter { it.contains(index) }
-                .map { it.map { array[it] }.toSet() }
-                .any { marked.containsAll(it) }
+            return isBingo(number)
         }
 
-        private val ranges = listOf(
-            0..4, 5..9, 10..14, 15..19, 20..24,
-            0 until 25 step 5,
-            1 until 25 step 5,
-            2 until 25 step 5,
-            3 until 25 step 5,
-            4 until 25 step 5,
-        )
+        fun unmarked() = (numbers subtract marked)
 
-        fun notMarkedSum() =
-            (array subtract marked).sum()
+        private fun isBingo(number: Int) =
+            winnerRanges
+                .filter { it.contains(numbers.indexOf(number)) }
+                .map { it.map { numbers[it] }.toSet() }
+                .any { marked.containsAll(it) }
 
         companion object {
             fun from(input: String): BingoBoard {
                 return BingoBoard(input
+                    .trim()
                     .split(" ")
                     .filter { it.isNotEmpty() }
                     .map(String::toInt)
                     .toList())
             }
+
+            private val winnerRanges = listOf(
+                0..4,
+                5..9,
+                10..14,
+                15..19,
+                20..24,
+                0..24 step 5,
+                1..24 step 5,
+                2..24 step 5,
+                3..24 step 5,
+                4..24 step 5,
+            )
 
         }
     }
