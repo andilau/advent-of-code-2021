@@ -20,7 +20,7 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.reflections:reflections:0.9.12")
 
-    testApi("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testApi("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     testImplementation("org.assertj:assertj-core:3.21.0")
 }
 
