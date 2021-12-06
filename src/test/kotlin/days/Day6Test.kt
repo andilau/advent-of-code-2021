@@ -13,7 +13,12 @@ class Day6Test {
     @DisplayName("Part 1")
     inner class Part1 {
         @Test
-        fun horizontalAndVerticalLinesShouldOverlapIn_5Points() {
+        fun populationAfter_18GenerationsShouldEqual_26() {
+            assertThat(Day6(input).populationAt(18)).isEqualTo(26)
+        }
+
+        @Test
+        fun populationAfter_80GenerationsShouldEqual_5934() {
             assertThat(Day6(input).partOne()).isEqualTo(5934)
         }
     }
@@ -22,8 +27,8 @@ class Day6Test {
     @DisplayName("Part 2")
     inner class Part2 {
         @Test
-        fun allLinesShouldOverlapIn_12Points() {
-            assertThat(Day6(input).partTwo()).isEqualTo(5934)
+        fun populationAfter_80GenerationsShouldEqual_26984457539() {
+            assertThat(Day6(input).partTwo()).isEqualTo(26_984_457_539)
         }
     }
 }
