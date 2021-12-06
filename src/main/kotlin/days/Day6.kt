@@ -25,14 +25,18 @@ class Day6(input: String) : Puzzle {
             .toMutableMap()
 
     private fun MutableMap<Int, Long>.reproduceByTimer() = generateSequence(this) { map ->
-        val resetAndCreate = map.getOrDefault(0, 0)
+        // population reproduces
+        val resetsAndReproduces = map.getOrDefault(0, 0)
 
-        // timer decreases
-        for (timer in 1..8) {
-            map[timer - 1] = map.getOrDefault(timer, 0)
-        }
-        map[6] = map.getOrDefault(6, 0) + resetAndCreate // add population of resetted lanternfish
-        map[8] = resetAndCreate  // create population of new lanternfish
+        // update population by decreased timer
+        (1..8).forEach { timer -> map[timer - 1] = map.getOrDefault(timer, 0) }
+
+        // add population of resetted lanternfish with timer 6
+        map[6] = map.getOrDefault(6, 0) + resetsAndReproduces
+
+        // set population of new lanternfish with timer 8
+        map[8] = resetsAndReproduces
+
         map
     }
 }
