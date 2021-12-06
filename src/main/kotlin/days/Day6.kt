@@ -13,30 +13,32 @@ class Day6(input: String) : Puzzle {
     override fun partTwo() = populationAt(256)
 
     fun populationAt(generation: Int) = population
-        .populationByTimer()
-        .reproduceByTimer()
+        .populationMap()
+        .reproduceMap()
         .drop(generation)
         .first()
         .values.sum()
 
-    private fun List<Int>.populationByTimer() =
-        this.groupBy { it }
-            .mapValues { it.value.count().toLong() }
+    private fun List<Int>.populationMap() =
+        this.groupingBy { it }
+            .eachCount()
+            .mapValues { it.value.toLong() }
             .toMutableMap()
 
-    private fun MutableMap<Int, Long>.reproduceByTimer() = generateSequence(this) { map ->
-        // population reproduces
-        val resetsAndReproduces = map.getOrDefault(0, 0)
-
-        // update population by decreased timer
-        (1..8).forEach { timer -> map[timer - 1] = map.getOrDefault(timer, 0) }
-
-        // add population of resetted lanternfish with timer 6
-        map[6] = map.getOrDefault(6, 0) + resetsAndReproduces
-
-        // set population of new lanternfish with timer 8
-        map[8] = resetsAndReproduces
-
-        map
-    }
+    private fun Map<Int, Long>.reproduceMap() =
+        generateSequence(this) { map ->
+            val mapWithDefault = map.withDefault { 0 }
+            mapOf(
+                0 to mapWithDefault.getValue(1),
+                1 to mapWithDefault.getValue(2),
+                2 to mapWithDefault.getValue(3),
+                3 to mapWithDefault.getValue(4),
+                4 to mapWithDefault.getValue(5),
+                5 to mapWithDefault.getValue(6),
+                6 to mapWithDefault.getValue(7) +
+                        mapWithDefault.getValue(0),
+                7 to mapWithDefault.getValue(8),
+                8 to mapWithDefault.getValue(0),
+            )
+        }
 }
