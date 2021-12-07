@@ -11,6 +11,7 @@ programming language. Advent of Code is an Advent calendar of small programming 
 - Day 4: 🦑 [Giant Squid](https://adventofcode.com/2021/day/4) -- [Day4.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day4.kt)
 - Day 5: 😶‍🌫️ [Hydrothermal Venture](https://adventofcode.com/2021/day/5) -- [Day5.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day5.kt)
 - Day 6: 🐠 [Lanternfish](https://adventofcode.com/2021/day/6) -- [Day6.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day6.kt)
+- Day 7: 🦀 [The Treachery of Whales](https://adventofcode.com/2021/day/7) -- [Day7.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day7.kt)
 
 ## Features
 
