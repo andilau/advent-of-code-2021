@@ -30,6 +30,7 @@ class Day8Test {
     @DisplayName("Part 1")
     inner class Part1 {
         @Test
+        @DisplayName("Simple digits (1,4,7,8) should sum up to 26")
         fun digits_1_4_7_8_ShouldAppear_26Times() {
             assertThat(Day8(multipleEntries).partOne()).isEqualTo(26)
         }
@@ -39,13 +40,14 @@ class Day8Test {
     @DisplayName("Part 2")
     inner class Part2 {
         @Test
+        @DisplayName("Single Entries should decode display to 5353")
         fun singleEntryShouldEqualTo_5353() {
             val (signal, display) = parseInput(singleEntry.first())
             assertThat(Day8.decodeOutput(signal, display)).isEqualTo("5353")
         }
 
         @TestFactory
-        @DisplayName("Multiple Entries")
+        @DisplayName("Multiple Entries should decode display")
         internal fun multipleEntriesWithExpected(): List<DynamicTest> =
             multipleEntriesWithExpected.map { (input, expected) ->
                 DynamicTest.dynamicTest("""Signal: "$input" => Display: $expected""") {
@@ -55,6 +57,7 @@ class Day8Test {
             }
 
         @Test
+        @DisplayName("All Entries should sum up to 61229")
         fun allEnriesShouldSumTo_61229() {
             assertThat(Day8(multipleEntries).partTwo()).isEqualTo(61_229)
         }
