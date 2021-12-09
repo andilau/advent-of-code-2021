@@ -1,7 +1,7 @@
 package days
 
 typealias Basin = MutableList<List<IntRange>>
-typealias Basins = MutableSet<Basin>
+typealias Basins = Set<Basin>
 
 @AdventOfCodePuzzle(
     name = "Smoke Basin",
@@ -18,14 +18,15 @@ class Day9(private val seafloor: List<String>) : Puzzle {
         }.sumOf { seafloor.levelAt(it) }
 
     override fun partTwo() =
-        seafloor.indices.map { y -> ranges(y) }
-            //.also { println(it.joinToString("\n")) }
-            .fold(mutableSetOf(), build())
-            .also { it.forEach { println("Basin:" + it.joinToString(" ")) } }
-            .map { it.sumOf { it.sumOf { it.last - it.first + 1 } } }
+        seafloor.indices.asSequence().map { y -> ranges(y) }
+            .fold(emptySet(), buildBasins())
+            .map { it.size() }
             .sortedDescending()
             .take(3)
-            .let { it[0] * it[1] * it[2] }
+            .reduce { a, b -> a * b }
+
+    private fun Basin.size() =
+        sumOf { ranges -> ranges.sumOf { range -> range.last - range.first + 1 } }
 
     private fun ranges(y: Int): List<IntRange> {
         val line = seafloor[y]
@@ -41,48 +42,59 @@ class Day9(private val seafloor: List<String>) : Puzzle {
             .mapNotNull { (start, end) -> if (end - start > 1) start + 1 until end else null }
     }
 
-    private fun build() = { basins: Basins, lineRanges: List<IntRange> ->
-        println("Day9.build")
+    private fun buildBasins() = { basins: Basins, lineRanges: List<IntRange> ->
+        val newBasins = mutableSetOf<Basin>()
+
         val rangesToAdd = lineRanges.toMutableSet()
         for (basin in basins) {
-            if (basin.last().isEmpty()) continue
-            print("basin: $basin ")
-            val add = basin.inRangeOf(lineRanges)
-            basin.add(add)
-            rangesToAdd.removeAll(add)
-            println("--> $basin")
+            if (basin.last().isEmpty()) {
+                newBasins.add(basin)
+            }
+            else {
+                val add = basin.inRangeOf(lineRanges)
+                basin.add(add)
+                newBasins.add(basin)
+                rangesToAdd.removeAll(add)
+            }
         }
-        val toMerge = basins
+
+        val basinsToMerge: List<MutableList<List<IntRange>>>? = basins
+            .filter { it.last().isNotEmpty() }
             .groupBy { it.last() }
             .filterValues { it.size >= 2 }
             .values
-        println("toMerge = ${toMerge}")
+            .firstOrNull()
 
+        if (basinsToMerge != null && basinsToMerge.isNotEmpty()) {
+
+            val map = basinsToMerge
+                .map { it.reversed() }
+                .flatMap { it.withIndex() }
+                .groupBy { it.index }
+                .mapValues { it.value.flatMap { it.value }.distinct() }
+                .values
+                .reversed()
+                .toMutableList()
+
+            basinsToMerge.forEach { basin ->
+                newBasins.remove(basin)
+            }
+
+            newBasins.add(map)
+        }
         for (addRange in rangesToAdd) {
             val newBasin = mutableListOf(listOf(addRange))
-            basins.add(newBasin)
-            println("new basin: $newBasin")
+            newBasins.add(newBasin)
         }
-        basins
+        newBasins
     }
 
-    private fun Basin.inRangeOf(ranges: List<IntRange>): List<IntRange> {
-        val basinRanges = last()
-        return ranges.filter { range ->
-            basinRanges.any { basinRange ->
+    private fun Basin.inRangeOf(ranges: List<IntRange>): List<IntRange> =
+        ranges.filter { range ->
+            last().any { basinRange ->
                 range.any { it in basinRange }
             }
         }
-    }
-
-    fun IntRange.inRange(others: List<IntRange>): IntRange? {
-        this.forEach { spot ->
-            others.forEach { lineOfBasin ->
-                if (spot in lineOfBasin) return lineOfBasin
-            }
-        }
-        return null
-    }
 
     private fun List<String>.getNeighbours(x: Int, y: Int) =
         setOfNotNull(

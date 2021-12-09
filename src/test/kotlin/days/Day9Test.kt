@@ -34,6 +34,8 @@ class Day9Test {
             assertThat(Day9(seafloor).partOne()).isEqualTo(15)
         }
     }
+
+    // three largest basins and multiply their sizes together
     @Nested
     @DisplayName("Part 2")
     inner class Part2 {
@@ -43,9 +45,8 @@ class Day9Test {
         }
         @Test
         fun `Product of the size of the three largest basins with Connect should be 1134`() {
-            assertThat(Day9(seafloorConnecting).partTwo()).isEqualTo(9*9*17)
+            assertThat(Day9(seafloorConnecting).partTwo()).isEqualTo(9*9*18)
         }
     }
 
-    // three largest basins and multiply their sizes together
 }
