@@ -67,7 +67,7 @@ class Day9(private val seafloor: List<String>) : Puzzle {
 
         if (basinsToMerge != null && basinsToMerge.isNotEmpty()) {
 
-            val map = basinsToMerge
+            val basinMerged = basinsToMerge
                 .map { it.reversed() }
                 .flatMap { it.withIndex() }
                 .groupBy { it.index }
@@ -76,11 +76,8 @@ class Day9(private val seafloor: List<String>) : Puzzle {
                 .reversed()
                 .toMutableList()
 
-            basinsToMerge.forEach { basin ->
-                newBasins.remove(basin)
-            }
-
-            newBasins.add(map)
+            newBasins.removeAll(basinsToMerge)
+            newBasins.add(basinMerged)
         }
         for (addRange in rangesToAdd) {
             val newBasin = mutableListOf(listOf(addRange))

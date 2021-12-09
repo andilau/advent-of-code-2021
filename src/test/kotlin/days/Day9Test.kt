@@ -1,5 +1,3 @@
-@file:Suppress("SpellCheckingInspection")
-
 package days
 
 import org.assertj.core.api.Assertions.assertThat
@@ -8,7 +6,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Day 9")
-@SuppressWarnings("SpellCheckingInspection")
 class Day9Test {
     private val seafloor =
         """
@@ -17,7 +14,8 @@ class Day9Test {
 9856789892
 8767896789
 9899965678""".trimIndent().lines()
-    private val seafloorConnecting =
+
+    private val seafloorConnected =
         """
 2199943210
 3987894921
@@ -35,7 +33,6 @@ class Day9Test {
         }
     }
 
-    // three largest basins and multiply their sizes together
     @Nested
     @DisplayName("Part 2")
     inner class Part2 {
@@ -43,9 +40,10 @@ class Day9Test {
         fun `Product of the size of the three largest basins should be 1134`() {
             assertThat(Day9(seafloor).partTwo()).isEqualTo(1134)
         }
+
         @Test
-        fun `Product of the size of the three largest basins with Connect should be 1134`() {
-            assertThat(Day9(seafloorConnecting).partTwo()).isEqualTo(9*9*18)
+        fun `Product of the size of the three largest basins with Connect should be 1458`() {
+            assertThat(Day9(seafloorConnected).partTwo()).isEqualTo(9 * 9 * 18)
         }
     }
 
