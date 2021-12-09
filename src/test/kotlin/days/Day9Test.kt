@@ -17,6 +17,13 @@ class Day9Test {
 9856789892
 8767896789
 9899965678""".trimIndent().lines()
+    private val seafloorConnecting =
+        """
+2199943210
+3987894921
+8856789892
+8767896789
+9899965678""".trimIndent().lines()
 
     @Nested
     @DisplayName("Part 1")
@@ -33,6 +40,10 @@ class Day9Test {
         @Test
         fun `Product of the size of the three largest basins should be 1134`() {
             assertThat(Day9(seafloor).partTwo()).isEqualTo(1134)
+        }
+        @Test
+        fun `Product of the size of the three largest basins with Connect should be 1134`() {
+            assertThat(Day9(seafloorConnecting).partTwo()).isEqualTo(9*9*17)
         }
     }
 

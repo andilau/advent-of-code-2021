@@ -52,6 +52,12 @@ class Day9(private val seafloor: List<String>) : Puzzle {
             rangesToAdd.removeAll(add)
             println("--> $basin")
         }
+        val toMerge = basins
+            .groupBy { it.last() }
+            .filterValues { it.size >= 2 }
+            .values
+        println("toMerge = ${toMerge}")
+
         for (addRange in rangesToAdd) {
             val newBasin = mutableListOf(listOf(addRange))
             basins.add(newBasin)
