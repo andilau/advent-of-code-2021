@@ -20,7 +20,7 @@ class Day10(private val chunks: List<String>) : Puzzle {
             .sorted()
             .middle()
 
-    private fun CharSequence.autoCompleteScore() =
+    private fun Iterable<Char>.autoCompleteScore() =
         fold(0L) { score, char ->
             score * 5 + when (char) {
                 ')' -> 1
@@ -38,39 +38,38 @@ class Day10(private val chunks: List<String>) : Puzzle {
                 ']' -> 57
                 '}' -> 1197
                 '>' -> 25137
-                else -> 1
+                else -> 0
             }
         }
 
     private fun CharSequence.firstIllegalCharacter(): Char? {
         val stack = mutableListOf<Char>()
         forEach { char ->
-            if (char in pairs.values) stack.add(char)
-            else if (char in pairs.keys) {
-                if (stack.last() == pairs[char]) stack.removeLast()
-                else if (char in pairs.keys) return char
+            if (char in closedToOpen.values) stack.add(char)
+            else if (char in closedToOpen.keys) {
+                if (stack.last() == closedToOpen[char]) stack.removeLast()
+                else if (char in closedToOpen.keys) return char
             }
         }
         return null
     }
 
-    private fun CharSequence.autoComplete(): CharSequence {
-        val stack = mutableListOf<Char>()
-        forEach { c ->
-            if (c in pairs.values) stack.add(c)
-            else if (c in pairs.keys) {
-                if (stack.last() == pairs[c]) stack.removeLast()
-                else if (c in pairs.keys) throw IllegalStateException("")
+    private fun CharSequence.autoComplete(): Iterable<Char> {
+        return fold("") { string, char ->
+            when {
+                (char in closedToOpen.values) -> string.plus(char)
+                (char in closedToOpen.keys && string.last() == closedToOpen[char]) -> string.dropLast(1)
+                else -> string
             }
         }
-        return stack
+            .map { c -> closedToOpen.filterValues { it == c }.firstNotNullOf { it.key } }
             .reversed()
-            .map { c -> pairs.filterValues { it == c }.firstNotNullOf { it.key } }
-            .joinToString("")
     }
 
+    private fun <E> Collection<E>.middle(): E = this.drop(this.size / 2).first()
+
     companion object {
-        val pairs = listOf(
+        val closedToOpen = listOf(
             ')' to '(',
             ']' to '[',
             '}' to '{',
@@ -78,5 +77,3 @@ class Day10(private val chunks: List<String>) : Puzzle {
         ).toMap()
     }
 }
-
-private fun <E> Collection<E>.middle(): E = this.drop(this.size / 2).first()
