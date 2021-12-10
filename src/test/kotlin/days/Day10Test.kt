@@ -42,5 +42,11 @@ class Day10Test {
     @Nested
     @DisplayName("Part 2")
     inner class Part2 {
+        @Test
+        @DisplayName("Sum Of The Risk Levels Of All Low Points Should")
+        fun sumOfTheRiskLevelsOfAllLowPointsShouldBe_corrupted() {
+            assertThat(Day10(parentheses).partTwo()).isEqualTo(288957)
+        }
+
     }
 }
