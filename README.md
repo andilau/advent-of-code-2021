@@ -15,6 +15,7 @@ programming language. Advent of Code is an Advent calendar of small programming 
 - Day 8: 7 [Seven Segment Search](https://adventofcode.com/2021/day/8) -- [Day8.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day8.kt)
 - Day 9: 🛁 [Smoke Basin](https://adventofcode.com/2021/day/9) -- [Day9.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day9.kt)
 - Day 10: 💬 [Syntax Scoring](https://adventofcode.com/2021/day/10) -- [Day10.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day10.kt)
+- Day 11: 🐙 ["Dumbo Octopus"](https://adventofcode.com/2021/day/11) -- [Day11.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day11.kt)
 
 ## Features
 

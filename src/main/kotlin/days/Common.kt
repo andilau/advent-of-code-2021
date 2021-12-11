@@ -8,4 +8,16 @@ data class Point(val x: Int, val y: Int) {
     operator fun minus(other: Point): Point = Point(x - other.x, y - other.y)
 
     fun normalize() = Point(x / x.absoluteValue, y / y.absoluteValue)
+
+    fun neighbors(): List<Point> =
+        listOf(
+            Point(x - 1, y - 1),
+            Point(x + 0, y - 1),
+            Point(x + 1, y - 1),
+            Point(x + 1, y),
+            Point(x - 1, y),
+            Point(x - 1, y + 1),
+            Point(x + 0, y + 1),
+            Point(x + 1, y + 1),
+        )
 }
