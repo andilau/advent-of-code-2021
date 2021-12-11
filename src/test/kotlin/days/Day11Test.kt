@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Day 10")
+@DisplayName("Day 11")
 class Day11Test {
 
     val smallExampleSequence = listOf(
