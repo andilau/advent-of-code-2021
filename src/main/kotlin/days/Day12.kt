@@ -10,40 +10,39 @@ class Day12(val input: List<String>) : Puzzle {
     private val links = input.parseInput()
 
     override fun partOne() =
-        links.step { path, next -> next !in path }.size
+        links.generatePaths { path, next -> next.isBigCave() || next !in path }.size
 
     override fun partTwo() =
-        links.step { path, next ->
-            next !in path ||
-                    path.filter(String::isSmallCave).groupBy { it }
+        links.generatePaths { path, next ->
+            next.isBigCave() || next !in path ||
+                    path.filter { it.isSmallCave() }.groupBy { it }
                         .filterValues { it.size == 2 }
                         .isEmpty()
         }
             .size
 
-    private inline fun Map<String, List<String>>.step(
-        visitBig: (List<String>, String) -> Boolean = { _, _ -> true },
-        visitSmall: (List<String>, String) -> Boolean
+    private inline fun Map<String, List<String>>.generatePaths(
+        visitPredicate: (List<String>, String) -> Boolean
     ): Set<List<String>> {
-        var paths: MutableSet<List<String>> = this.getValue("start").map { listOf("start", it) }.toMutableSet()
-        while (true) {
-            val new = mutableSetOf<List<String>>()
-            for (path in paths) {
-                val last = path.last()
-                if (last == END) {
-                    new.add(path)
-                }
-                else {
-                    this.getValue(last).forEach { next ->
-                        if (next.isBigCave() && visitBig.invoke(path, next))
-                            new.add(path + next)
-                        if (next.isSmallCave() && visitSmall.invoke(path, next))
-                            new.add(path + next)
-                    }
-                }
-            }
-            paths = new
-            if (new.map { it.last() }.all { it == END }) break
+
+        var paths: Set<List<String>> = this.getValue(START).map { listOf(START, it) }.toSet()
+        while (paths
+                .map { path -> path.last() }
+                .any { it != END }
+        ) {
+            paths =
+                paths.filter { path -> path.last() == END }.toSet() +
+                        paths
+                            .filter { path -> path.last() != END }
+                            .flatMap { path ->
+                                val last = path.last()
+                                this.getValue(last).mapNotNull { next ->
+                                    if (visitPredicate.invoke(path, next))
+                                        path + next
+                                    else
+                                        null
+                                }
+                            }
         }
         return paths.toSet()
     }
@@ -61,7 +60,7 @@ class Day12(val input: List<String>) : Puzzle {
         const val START = "start"
         const val END = "end"
     }
-}
 
-private fun String.isSmallCave() = first().isLowerCase()
-private fun String.isBigCave() = first().isUpperCase()
+    private fun String.isSmallCave() = first().isLowerCase()
+    private fun String.isBigCave() = first().isUpperCase()
+}
