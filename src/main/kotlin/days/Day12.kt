@@ -16,20 +16,22 @@ class Day12(val input: List<String>) : Puzzle {
     }.groupBy(keySelector = { it.first }, valueTransform = { it.second })
 
     override fun partOne(): Int {
-
         var paths: MutableSet<List<String>> = nodes.getValue("start").map { listOf("start", it) }.toMutableSet()
-
         while (true) {
             val new = mutableSetOf<List<String>>()
 
             for (path in paths) {
                 val last = path.last()
-                if (last == END) {new.add(path); continue}
+                if (last == END) {
+                    new.add(path)
+                    continue
+                }
                 val all = nodes.getValue(last)
                 for (next in all) {
-                    if (next.all { it.isLowerCase() } && path.count { it == next } == 1)
-                        continue
-                    new.add(path + next)
+                    if (!next.isSmallCave())
+                        new.add(path + next)
+                    else if (next !in path)
+                        new.add(path + next)
                 }
             }
 
@@ -39,12 +41,40 @@ class Day12(val input: List<String>) : Puzzle {
         return paths.size
     }
 
-    override fun partTwo(): Any {
-        return 0
+    override fun partTwo(): Int {
+        var paths: MutableSet<List<String>> = nodes.getValue("start").map { listOf("start", it) }.toMutableSet()
+
+        while (true) {
+            val new = mutableSetOf<List<String>>()
+
+            for (path in paths) {
+                val last = path.last()
+                if (last == END) {
+                    new.add(path); continue
+                }
+                val all = nodes.getValue(last)
+                for (next in all) {
+                    if (!next.isSmallCave()) {
+                        new.add(path + next)
+                    }
+                    else
+                        if (next !in path || path.filter(String::isSmallCave).groupBy { it }
+                                .filterValues { it.size == 2 }.isEmpty())
+                            new.add(path + next)
+                }
+            }
+            paths = new
+            if (new.map { it.last() }.all { it == END }) break
+        }
+        return paths.size
     }
+
 
     companion object {
         const val START = "start"
         const val END = "end"
     }
 }
+
+private fun String.isSmallCave() = first().isLowerCase()
+private fun String.isBigCave() = first().isUpperCase()
