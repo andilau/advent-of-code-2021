@@ -40,7 +40,6 @@ class Day11Test {
         fun `After 100 steps, there have been a total of 1656 flashes`() {
             assertThat(Day11(largeExampleGenerations.getValue(0)).partOne()).isEqualTo(1656)
         }
-
     }
 
     @Nested
