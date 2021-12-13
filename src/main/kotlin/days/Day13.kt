@@ -19,7 +19,9 @@ class Day13(val input: List<String>) : Puzzle {
             .count()
 
     override fun partTwo() =
-        0
+        instructions
+            .fold(points) { points, instruction -> points.foldAxis(instruction) }
+            .print()
 
     private fun Set<Point>.foldAxis(instruction: String): Set<Point> {
         val axis = instruction.first()
@@ -43,6 +45,21 @@ class Day13(val input: List<String>) : Puzzle {
             .map { it.substringAfter("fold along ") }
             .also { println("it = ${it}") }
             .toList()
+}
+
+private fun Set<Point>.print() {
+    this.groupBy { it.y }
+        .toSortedMap()
+        .forEach { (y, u) ->
+            val maxByOrNull = u.maxByOrNull { it.x }?.x ?: 0
+            (0..maxByOrNull).forEach() {
+                if (Point(it, y) in u)
+                    print("#")
+                else print(" ")
+            }
+            println()
+        }
+
 }
 
 fun from(line: String): Point {
