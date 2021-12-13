@@ -8,14 +8,8 @@ package days
 class Day11(val input: List<String>) : Puzzle {
     private var dumbos = parseInput(input)
 
-    override fun partOne(): Int {
-        var flashCount = 0
-        repeat(100) {
-            cycle(dumbos)
-            flashCount += dumbos.sumOf { row -> row.count { it == 0 } }
-        }
-        return flashCount
-    }
+    override fun partOne() =
+        flashCount(100)
 
     override fun partTwo(): Int {
         val dumbos = parseInput(input)
@@ -28,6 +22,20 @@ class Day11(val input: List<String>) : Puzzle {
             }
         }
         return cycle
+    }
+
+    internal fun flashCount(generation: Int = 1): Int {
+        var flashCount = 0
+        repeat(generation) {
+            cycle(dumbos)
+            flashCount += dumbos.sumOf { row -> row.count { it == 0 } }
+        }
+        return flashCount
+    }
+
+    internal fun step(times: Int = 1): List<String> {
+        repeat(times) { cycle(dumbos) }
+        return dumbos.map { it.joinToString("") }
     }
 
     private fun cycle(dumbos: List<MutableList<Int>>) {
@@ -62,9 +70,4 @@ class Day11(val input: List<String>) : Puzzle {
 
     private fun parseInput(input: List<String>) =
         input.map { line -> line.map { it.digitToInt() }.toMutableList() }
-
-    fun step(times: Int = 1): List<String> {
-        repeat(times) { cycle(dumbos) }
-        return dumbos.map { it.joinToString("") }
-    }
 }
