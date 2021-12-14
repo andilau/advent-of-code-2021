@@ -7,32 +7,32 @@ package days
 )
 class Day14(val input: List<String>) : Puzzle {
     private val polymer: String = input.first()
-    private val rules = input
-        .dropWhile { it.isNotEmpty() }
-        .drop(1)
+    private val rules = input.drop(2)
         .associate { line -> line.split(" -> ").let { it[0] to it[1] } }
 
     override fun partOne() =
-        process(10)
-            .countByChar()
-            .maxMinusMin()
+        buildMoleculePairAndCount(10)
+            .countByMolecule()
+            .values
+            .mostMinusLeastCommon()
 
     override fun partTwo() =
-        process(40)
-            .countByChar()
-            .maxMinusMin()
+        buildMoleculePairAndCount(40)
+            .countByMolecule()
+            .values
+            .mostMinusLeastCommon()
 
-    fun process(times: Int): Map<String, Long> {
+    private fun buildMoleculePairAndCount(times: Int): Map<String, Long> {
         var pairCount = polymer.windowed(2)
             .groupingBy { pairs -> pairs }.eachCount()
             .mapValues { counts -> counts.value.toLong() }
 
         repeat(times) {
             pairCount = pairCount
-                .flatMap { (a, count) ->
-                    val b = rules.getValue(a)
-                    val left = a[0] + b
-                    val right = b + a[1]
+                .flatMap { (pair, count) ->
+                    val molecule = rules.getValue(pair)
+                    val left = pair[0] + molecule
+                    val right = molecule + pair[1]
                     listOf(left to count, right to count)
                 }
                 .groupBy({ it.first }, { it.second })
@@ -41,7 +41,7 @@ class Day14(val input: List<String>) : Puzzle {
         return pairCount
     }
 
-    fun Map<String, Long>.countByChar(): Map<Char, Long> =
+    private fun Map<String, Long>.countByMolecule(): Map<Char, Long> =
         this
             .flatMap { (pair, count) -> listOf(pair[0] to count, pair[1] to count) }
             .groupBy({ it.first }, { it.second })
@@ -49,7 +49,11 @@ class Day14(val input: List<String>) : Puzzle {
             .mapValues { if (it.key in polymer) it.value + 1 else it.value }
             .mapValues { it.value / 2 }
 
-    fun Map<Char, Long>.maxMinusMin() = values.sorted().let { it.last() - it.first() }
+    private fun Collection<Long>.mostMinusLeastCommon() = sorted().let { it.last() - it.first() }
 
-    internal fun countChars(times: Int) = process(times).countByChar().values.sum()
+    internal fun countMolecules(times: Int) = countByMolecule(times).values.sum()
+
+    internal fun countByMolecule(times: Int) =
+        buildMoleculePairAndCount(times)
+            .countByMolecule()
 }

@@ -1,10 +1,7 @@
 package days
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 
 @DisplayName("Day 14")
 class Day14Test {
@@ -31,7 +28,7 @@ class Day14Test {
     @Nested
     @DisplayName("Part 1")
     inner class Part1 {
-        val polymere = listOf(
+        private val resultWithStep = listOf(
             "NNCB",
             "NCNBCHB",
             "NBCCNBBBCBHCB",
@@ -39,35 +36,50 @@ class Day14Test {
             "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB",
         )
 
+        @TestFactory
+        @DisplayName("Molecule distribution with cycle should match")
+        fun `Molecule distribution with cycle should match`(): List<DynamicTest> =
+            resultWithStep
+                .map { it.moleculeDistribution() }
+                .mapIndexed() { cycle, distribution ->
+                    DynamicTest.dynamicTest("Molecule distribution with cycle $cycle should match $distribution") {
+                        assertThat(Day14(example).countByMolecule(times = cycle)).isEqualTo(distribution)
+                    }
+                }
+
+        @TestFactory
+        @DisplayName("Molecule count with cycle should match")
+        fun `Molecule count with cycle should match`(): List<DynamicTest> =
+            resultWithStep
+                .map { it.moleculeCount() }
+                .mapIndexed() { cycle, count ->
+                    DynamicTest.dynamicTest("Molecule count with cycle $cycle should match $count") {
+                        assertThat(Day14(example).countMolecules(times = cycle)).isEqualTo(count)
+                    }
+                }
+
+        private fun String.moleculeDistribution() = groupingBy { it }.eachCount().mapValues { it.value.toLong() }
+        private fun String.moleculeCount() = groupingBy { it }.eachCount().values.sum().toLong()
+
         @Test
-        @DisplayName("Polymer test N")
-        internal fun polymerTestN() {
-            assertThat(Day14(example).countChars(0)).isEqualTo(polymere[0].countChars())
-            assertThat(Day14(example).countChars(1)).isEqualTo(polymere[1].countChars())
-            assertThat(Day14(example).countChars(2)).isEqualTo(polymere[2].countChars())
-            assertThat(Day14(example).countChars(3)).isEqualTo(polymere[3].countChars())
-            assertThat(Day14(example).countChars(4)).isEqualTo(polymere[4].countChars())
+        fun `Molecule count After 5 Insertion Cycles Should Equal 97`() {
+            assertThat(Day14(example).countMolecules(5)).isEqualTo(97)
         }
 
-        private fun String.countChars() = groupingBy { it }.eachCount().values.sum().toLong()
-
         @Test
-        @DisplayName("Polymere test After 5 Steps")
-        internal fun polymereTestAfter5Steps() {
-            assertThat(Day14(example).countChars(5)).isEqualTo(97)
+        fun `Molecule count After 10 Insertion Cycles Should Equal 3073`() {
+            assertThat(Day14(example).countMolecules(10)).isEqualTo(3073)
         }
 
         @Test
-        @DisplayName("Polymere test After 10 Steps")
-        internal fun polymereTestAfter10Steps() {
-            assertThat(Day14(example).countChars(10)).isEqualTo(3073)
-            /*  occurs 1749 times, C occurs 298 times, H occurs 161 times, and N occurs 865 times;
-            * */
+        fun `Molecule distribution After 10 Insertion Cycles Should Match`() {
+            val expected = listOf('B' to 1749L, 'C' to 298L, 'H' to 161L, 'N' to 865L).toMap()
+            val actual = Day14(example).countByMolecule(10)
+            assertThat(actual).isEqualTo(expected)
         }
 
         @Test
-        @DisplayName("Example Answer Do 10 Times")
-        internal fun exampleAnswer() {
+        internal fun `Most minus least common molecule occurrence after 10 cycles should equal 1588`() {
             assertThat(Day14(example).partOne()).isEqualTo(1588)
         }
     }
@@ -76,8 +88,7 @@ class Day14Test {
     @DisplayName("Part 2")
     inner class Part2 {
         @Test
-        @DisplayName("Example Answer Do 40 Times")
-        internal fun Do40Times() {
+        internal fun `Most minus least common molecule occurrence after 40 cycles should equal 2_188_189_693_529`() {
             assertThat(Day14(example).partTwo()).isEqualTo(2_188_189_693_529)
         }
     }
