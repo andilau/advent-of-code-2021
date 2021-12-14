@@ -1,7 +1,7 @@
 # Advent of Code 2021
 
-My solutions for [Advent of Code 2021](https://adventofcode.com/2021) in the [Kotlin](https://kotlinlang.org/)
-programming language. Advent of Code is an Advent calendar of small programming puzzles by [Eric Wastl](http://was.tl/).
+This project contains solutions to the [Advent of Code 2021](https://adventofcode.com/2021) challenge in [Kotlin](https://kotlinlang.org/). 
+[Advent of Code](https://adventofcode.com) is an Advent calendar of small programming puzzles by [Eric Wastl](http://was.tl/).
 
 ## Solutions
 
