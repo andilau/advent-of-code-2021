@@ -45,9 +45,12 @@ class Day14(val input: List<String>) : Puzzle {
         this
             .flatMap { (pair, count) -> listOf(pair[0] to count, pair[1] to count) }
             .groupBy({ it.first }, { it.second })
-            .mapValues { it.value.sum() }
-            .mapValues { if (it.key in polymer) it.value + 1 else it.value }
-            .mapValues { it.value / 2 }
+            .mapValues { (molecule, counts) ->
+                when (molecule) {
+                    polymer.first(), polymer.last() -> (counts.sum() + 1) / 2
+                    else -> counts.sum() / 2
+                }
+            }
 
     private fun Collection<Long>.mostMinusLeastCommon() = sorted().let { it.last() - it.first() }
 
