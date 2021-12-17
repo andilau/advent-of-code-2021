@@ -9,7 +9,6 @@ import kotlin.math.sign
 )
 class Day17(input: String) : Puzzle {
 
-    // target area: x=32..65, y=-225..-177
     private val targetArea = input
         .substringAfter("target area: ")
         .split(", ")
@@ -22,7 +21,7 @@ class Day17(input: String) : Puzzle {
 
     private val altitudes: Sequence<Int> by lazy {
         generateVelocities()
-            .mapNotNull { velocity -> maxAltitudeIfHittingTargetFor(velocity) }
+            .mapNotNull { velocity -> maxAltitudeIfHittingTargetOrNull(velocity) }
     }
 
     override fun partOne(): Int = altitudes.maxOrNull() ?: error("No altitudes found")
@@ -30,10 +29,11 @@ class Day17(input: String) : Puzzle {
     override fun partTwo(): Int = altitudes.count()
 
     private fun generateVelocities() = sequence {
-        for (x in 1..xRange.last) for (y in yRange.first..500) yield(Point(x, y))
+        for (x in 1..xRange.last)
+            for (y in yRange.first..500) yield(Point(x, y))
     }
 
-    private fun maxAltitudeIfHittingTargetFor(velocity: Point): Int? {
+    internal fun maxAltitudeIfHittingTargetOrNull(velocity: Point): Int? {
         val points = velocityByTime(velocity)
             .trajectory()
             .takeWhile { it.x <= xRange.last && it.y >= yRange.first }
@@ -46,4 +46,7 @@ class Day17(input: String) : Puzzle {
 
     private fun Sequence<Point>.trajectory(): Sequence<Point> =
         runningFold(Point.ORIGIN) { pos, v -> pos + v }
+
+    internal fun velocities(): List<Point> =
+        generateVelocities().filter { maxAltitudeIfHittingTargetOrNull(it) != null }.toList()
 }
