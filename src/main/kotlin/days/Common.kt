@@ -20,4 +20,8 @@ data class Point(val x: Int, val y: Int) {
             Point(x + 0, y + 1),
             Point(x + 1, y + 1),
         )
+
+    companion object {
+        val ORIGIN = Point(0,0)
+    }
 }
