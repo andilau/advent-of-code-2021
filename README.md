@@ -21,6 +21,7 @@ This project contains solutions to the [Advent of Code 2021](https://adventofcod
 - Day 14: 💪 [Extended Polymerization](https://adventofcode.com/2021/day/14) -- [Day14.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day14.kt)
 - Day 15: 🦪 [Chiton](https://adventofcode.com/2021/day/15) -- [Day15.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day15.kt)
 - Day 16: 📦 [Packet Decoder](https://adventofcode.com/2021/day/16) -- [Day16.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day16.kt)
+- Day 17: 🪄 [Trick Shot](https://adventofcode.com/2021/day/17) -- [Day17.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day17.kt)
 
 ## Features
 
