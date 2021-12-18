@@ -6,32 +6,20 @@ package days
     date = Date(day = 18, year = 2021)
 )
 class Day18(val input: List<String>) : Puzzle {
-    val snailFishNumbers = input.map(SnailfishNumber::from)
+    private val snailfishNumbers = input.map(SnailfishNumber::from)
 
-    override fun partOne(): Int =
-        snailFishNumbers
+    override fun partOne() =
+        snailfishNumbers
             .reduce { a, b -> a + b }
             .magnitude()
 
-    override fun partTwo(): Int =
-        snailFishNumbers.flatMap { i ->
-            snailFishNumbers.map { j -> i to j }
+    override fun partTwo() =
+        snailfishNumbers.flatMap { i ->
+            snailfishNumbers.map { j -> i to j }
         }
             .filterNot { (i, j) -> i == j }
             .map { (i, j) -> i + j }
             .maxOf { it.magnitude() }
-
-    companion object {
-        internal fun toString(sailfish: String) = SnailfishNumber.from(sailfish).toString()
-        internal fun magnitudeOf(sailfish: String) = SnailfishNumber.from(sailfish).magnitude()
-        internal fun sailfishForExplode(sailfish: String) = SnailfishNumber.from(sailfish).findPairEligibleForExplode()
-        internal fun sailfishForSplit(sailfish: String) = SnailfishNumber.from(sailfish).findRegularEligibleForSplit()
-        internal fun reducedAsString(sailfish: String): String {
-            val s = SnailfishNumber.from(sailfish)
-            return s.reduce()?.let { s.replace(it) }.toString()
-        }
-    }
-
 
     sealed class SnailfishNumber {
         class Regular(val value: Int) : SnailfishNumber() {
@@ -64,25 +52,25 @@ class Day18(val input: List<String>) : Puzzle {
             is Regular -> null
         }
 
-        private fun asList(pair: Pair): List<SnailfishNumber> = when (this) {
+        private fun listOfRegularsAnd(pair: Pair): List<SnailfishNumber> = when (this) {
             is Regular -> listOf(this)
-            is Pair -> if (this == pair) listOf(this) else left.asList(pair) + right.asList(pair)
+            is Pair -> if (this == pair) listOf(this) else left.listOfRegularsAnd(pair) + right.listOfRegularsAnd(pair)
         }
 
         fun reduce(): Map<SnailfishNumber, SnailfishNumber>? {
             findPairEligibleForExplode()?.run {
-                val sub = mutableMapOf<SnailfishNumber, SnailfishNumber>(this to Regular(0))
+                val substitutions = mutableMapOf<SnailfishNumber, SnailfishNumber>(this to Regular(0))
 
-                val asList = this@SnailfishNumber.asList(this)
-                val index = asList.indexOf(this)
+                val listOfRegularsAndPair = this@SnailfishNumber.listOfRegularsAnd(this)
+                val index = listOfRegularsAndPair.indexOf(this)
 
-                val regularLeft = asList.getOrNull(index - 1) as Regular?
-                regularLeft?.let { sub[it] = Regular(it.value + (left as Regular).value) }
+                val regularLeft = listOfRegularsAndPair.getOrNull(index - 1) as Regular?
+                regularLeft?.let { substitutions[it] = Regular(it.value + (left as Regular).value) }
 
-                val regularRight = asList.getOrNull(index + 1) as Regular?
-                regularRight?.let { sub[it] = Regular(it.value + (right as Regular).value) }
+                val regularRight = listOfRegularsAndPair.getOrNull(index + 1) as Regular?
+                regularRight?.let { substitutions[it] = Regular(it.value + (right as Regular).value) }
 
-                return sub
+                return substitutions
             }
             findRegularEligibleForSplit()?.run {
                 return mapOf(
@@ -130,5 +118,16 @@ class Day18(val input: List<String>) : Puzzle {
                 return parse()
             }
         }
+    }
+
+    internal fun reduce() = snailfishNumbers.reduce { a, b -> a + b }
+
+    companion object {
+        internal fun fromAndToStringOf(sailfish: String) = SnailfishNumber.from(sailfish).toString()
+        internal fun magnitudeOf(sailfish: String) = SnailfishNumber.from(sailfish).magnitude()
+        internal fun explodingTermOf(sailfish: String) = SnailfishNumber.from(sailfish).findPairEligibleForExplode()
+        internal fun splittingTermOf(sailfish: String) = SnailfishNumber.from(sailfish).findRegularEligibleForSplit()
+        internal fun reducedFormOf(sailfish: String) =
+            with(SnailfishNumber.from(sailfish)) { reduce()?.let { replace(it) }.toString() }
     }
 }
