@@ -24,6 +24,7 @@ This project contains solutions to the [Advent of Code 2021](https://adventofcod
 - Day 17: 🪄 [Trick Shot](https://adventofcode.com/2021/day/17) -- [Day17.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day17.kt)
 - Day 18: 🐡 [Snailfish](https://adventofcode.com/2021/day/18) -- [Day18.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day18.kt)
 - Day 19: 💊 [Beacon Scanner](https://adventofcode.com/2021/day/19) -- [Day19.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day19.kt)
+- Day 20: 🗺 [Trench Map](https://adventofcode.com/2021/day/20) -- [Day20.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day20.kt)
 
 ## Features
 

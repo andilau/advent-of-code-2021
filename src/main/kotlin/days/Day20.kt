@@ -1,66 +1,58 @@
 package days
 
-class Day20(input: List<String>) : Puzzle {
-    val input2 = input.let { lines ->
-        Input(
-            lines.first(),
-            lines.subList(2, lines.size).map { it.toCharArray() }
-        )
-    }
+@AdventOfCodePuzzle(
+    name = "Trench Map",
+    url = "https://adventofcode.com/2021/day/20",
+    date = Date(day = 20, year = 2021)
+)
+class Day20(val input: List<String>) : Puzzle {
+    private val enhancement = input.first().toCharArray().map { if (it == '#') 1 else 0 }
+    private val image = Image.parse(input.drop(2))
 
-    override fun partOne(): Any {
-        return part1(input2, 2)
-    }
+    override fun partOne() =
+        (0 until 2).fold(image) { i, _ -> i.enhance(enhancement) }.litPixels()
 
-    override fun partTwo(): Any {
-        return part1(input2, 50)
-    }
+    override fun partTwo() =
+        (0 until 50).fold(image) { i, _ -> i.enhance(enhancement) }.litPixels()
 
-    fun part1(input: Input, steps: Int): Int {
-        val defaultChars = defaultChars(steps, input)
-        var image = input.inputImage
-        repeat(steps) { step ->
-            image = enhance(image, input, defaultChars[step])
-        }
-        return image.sumOf { line -> line.count { it == '#' } }
-    }
+    data class Image(val data: List<List<Int>>, val default: Int) {
+        private val height = data.size
+        private val width = data.first().size
 
-    class Input(
-        val enhancement: String,
-        val inputImage: List<CharArray>,
-    )
-
-    fun defaultChars(steps: Int, input: Input): List<Char> {
-        var index = 0
-        return (0 until steps + 1).map {
-            val nextChar = input.enhancement[index]
-            index = if (nextChar == '.') 0 else 511
-            nextChar
-        }.drop(1)
-    }
-
-    fun neighbors(r: Int, c: Int, image: List<CharArray>, defaultChar: Char): String {
-        return (r - 1..r + 1).flatMap { row ->
-            (c - 1..c + 1).map { col ->
-                val ch = image.getOrNull(row)?.getOrNull(col) ?: defaultChar
-                if (ch == '#') '1' else '0'
-            }
-        }.joinToString("")
-    }
-
-    fun enhance(image: List<CharArray>, input: Input, defaultChar: Char): List<CharArray> {
-        var newImage = List(image.size + 2) { CharArray(image[0].size + 2) }
-        for (row in newImage.indices) {
-            for (col in newImage[0].indices) {
-                val neighbors = neighbors(row - 1, col - 1, image, defaultChar)
-                val index = neighbors.toInt(2)
-                val newChar = input.enhancement[index]
-                newImage[row][col] = newChar
+        companion object {
+            fun parse(lines: List<String>): Image {
+                val data = lines.map { l -> l.map { if (it == '#') 1 else 0 } }
+                return Image(data, 0)
             }
         }
-        return newImage
+
+        fun enhance(mapping: List<Int>) =
+            Image(
+                data = (-1..height).map { y ->
+                    (-1..width).map { x ->
+                        Point(x, y)
+                            .neighborsAndSelf()
+                            .map { at(it) }
+                            .joinToString("")
+                            .toInt(2)
+                            .let { mapping[it] }
+                    }
+                }, default =
+                if (mapping[0] == 1) (1 - default) else default
+            )
+
+        fun litPixels() = data.sumOf { it.sum() }
+
+        private fun at(point: Point): Int {
+            if (point.x in 0 until width && point.y >= 0 && point.y < height) {
+                return data[point.y][point.x]
+            }
+            return default
+        }
+
+        override fun toString(): String =
+            data.joinToString("\n") { row ->
+                row.map { if (it == 1) '#' else '.' }.joinToString("")
+            }
     }
-
-
-
 }
