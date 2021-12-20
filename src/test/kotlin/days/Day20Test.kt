@@ -16,7 +16,6 @@ class Day20Test {
 ..###
 """.lines()
 
-
     @Nested
     @DisplayName("Part 1")
     inner class Part1 {

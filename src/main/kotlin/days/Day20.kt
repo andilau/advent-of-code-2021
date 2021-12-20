@@ -1,67 +1,66 @@
 package days
 
-import javax.swing.tree.VariableHeightLayoutCache
-
-@AdventOfCodePuzzle(
-    name = "Beacon Scanner",
-    url = "https://adventofcode.com/2021/day/20",
-    date = Date(day = 20, year = 2021)
-)
-class Day20(val input: List<String>) : Puzzle {
-    private val algorithm = input[0].map { if (it == '#') 0 else 1 }.toIntArray()
-    private val inv = algorithm[0] == 1
-    var data = input.drop(2).filter{it.isNotEmpty()}.map { it.map { if (it == '#') 1 else 0 }.toIntArray() }.toTypedArray()
-
-    class Image(val data: Array<IntArray>) {
-        val height = data.size
-        val width = data[0].size
-
-        init {
-            println("init with: $height $width")
-        }
-
-        fun enhance(algorithm: IntArray): Image {
-            val b = Array(height + 2) { IntArray(width + 2) }
-            val bg = 0
-            for (i in 0 until height + 2) for (j in 0 until width + 2) {
-                var s = 0
-                for (i1 in -1..1) for (j1 in -1..1) {
-                    s = (s shl 1) + when (data.getOrNull(i + i1 - 1)?.getOrNull(j + j1 - 1)) {
-                        null -> 0
-                        1 -> 1
-                        0 -> 0
-                        else -> error("")
-                    }
-                }
-                b[i][j] = algorithm[s] xor 1
-            }
-            return Image(b)
-        }
-
-        fun pixels() = data.sumOf { it.sum() }
-
-        fun print() {
-            println(data.joinToString("\n") {
-                it.map {
-                    when (it) {
-                        0 -> '.';1 -> '#';else -> error("")
-                    }
-                }.joinToString("")
-            })
-        }
+class Day20(input: List<String>) : Puzzle {
+    val input2 = input.let { lines ->
+        Input(
+            lines.first(),
+            lines.subList(2, lines.size).map { it.toCharArray() }
+        )
     }
 
-    override fun partOne(): Int {
-        return Image(data)
-            .also { it.print(); println("{${it.height}} {${it.width}}") }
-            .enhance(algorithm)
-            .also { it.print(); println("{${it.height}} {${it.width}}") }
-            .enhance(algorithm)
-            .also { it.print(); println("{${it.height}} {${it.width}}") }
-            .pixels()
+    override fun partOne(): Any {
+        return part1(input2, 2)
     }
 
     override fun partTwo(): Any {
-        return 0
+        return part1(input2, 50)
     }
+
+    fun part1(input: Input, steps: Int): Int {
+        val defaultChars = defaultChars(steps, input)
+        var image = input.inputImage
+        repeat(steps) { step ->
+            image = enhance(image, input, defaultChars[step])
+        }
+        return image.sumOf { line -> line.count { it == '#' } }
+    }
+
+    class Input(
+        val enhancement: String,
+        val inputImage: List<CharArray>,
+    )
+
+    fun defaultChars(steps: Int, input: Input): List<Char> {
+        var index = 0
+        return (0 until steps + 1).map {
+            val nextChar = input.enhancement[index]
+            index = if (nextChar == '.') 0 else 511
+            nextChar
+        }.drop(1)
+    }
+
+    fun neighbors(r: Int, c: Int, image: List<CharArray>, defaultChar: Char): String {
+        return (r - 1..r + 1).flatMap { row ->
+            (c - 1..c + 1).map { col ->
+                val ch = image.getOrNull(row)?.getOrNull(col) ?: defaultChar
+                if (ch == '#') '1' else '0'
+            }
+        }.joinToString("")
+    }
+
+    fun enhance(image: List<CharArray>, input: Input, defaultChar: Char): List<CharArray> {
+        var newImage = List(image.size + 2) { CharArray(image[0].size + 2) }
+        for (row in newImage.indices) {
+            for (col in newImage[0].indices) {
+                val neighbors = neighbors(row - 1, col - 1, image, defaultChar)
+                val index = neighbors.toInt(2)
+                val newChar = input.enhancement[index]
+                newImage[row][col] = newChar
+            }
+        }
+        return newImage
+    }
+
+
+
 }
