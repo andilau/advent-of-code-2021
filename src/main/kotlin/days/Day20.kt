@@ -1,5 +1,7 @@
 package days
 
+import javax.swing.tree.VariableHeightLayoutCache
+
 @AdventOfCodePuzzle(
     name = "Beacon Scanner",
     url = "https://adventofcode.com/2021/day/20",
@@ -8,11 +10,15 @@ package days
 class Day20(val input: List<String>) : Puzzle {
     private val algorithm = input[0].map { if (it == '#') 0 else 1 }.toIntArray()
     private val inv = algorithm[0] == 1
-    var data = input.drop(2).map { it.map { if (it == '#') 1 else 0 }.toIntArray() }.toTypedArray()
+    var data = input.drop(2).filter{it.isNotEmpty()}.map { it.map { if (it == '#') 1 else 0 }.toIntArray() }.toTypedArray()
 
     class Image(val data: Array<IntArray>) {
-        private val height = data.size
-        private val width = data[0].size
+        val height = data.size
+        val width = data[0].size
+
+        init {
+            println("init with: $height $width")
+        }
 
         fun enhance(algorithm: IntArray): Image {
             val b = Array(height + 2) { IntArray(width + 2) }
@@ -47,11 +53,12 @@ class Day20(val input: List<String>) : Puzzle {
 
     override fun partOne(): Int {
         return Image(data)
-            .also { it.print() }
+            .also { it.print(); println("{${it.height}} {${it.width}}") }
             .enhance(algorithm)
-            .also { it.print() }
+            .also { it.print(); println("{${it.height}} {${it.width}}") }
             .enhance(algorithm)
-            .also { it.print() }.pixels()
+            .also { it.print(); println("{${it.height}} {${it.width}}") }
+            .pixels()
     }
 
     override fun partTwo(): Any {
