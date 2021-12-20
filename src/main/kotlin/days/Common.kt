@@ -21,7 +21,14 @@ data class Point(val x: Int, val y: Int) {
             Point(x + 1, y + 1),
         )
 
+    fun neighborsAndSelf() =
+        (-1..1).flatMap { dy ->
+            (-1..1).map { dx ->
+                Point(x + dx, y + dy)
+            }
+        }
+
     companion object {
-        val ORIGIN = Point(0,0)
+        val ORIGIN = Point(0, 0)
     }
 }
