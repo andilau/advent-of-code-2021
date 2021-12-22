@@ -26,6 +26,7 @@ This project contains solutions to the [Advent of Code 2021](https://adventofcod
 - Day 19: 💊 [Beacon Scanner](https://adventofcode.com/2021/day/19) -- [Day19.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day19.kt)
 - Day 20: 🗺 [Trench Map](https://adventofcode.com/2021/day/20) -- [Day20.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day20.kt)
 - Day 21: 🎲 [Dirac Dice](https://adventofcode.com/2021/day/21) -- [Day21.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day21.kt)
+- Day 22: 🎲 [Reactor Reboot](https://adventofcode.com/2021/day/22) -- [Day22.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day22.kt)
 
 ## Features
 
