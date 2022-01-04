@@ -29,6 +29,7 @@ This project contains solutions to the [Advent of Code 2021](https://adventofcod
 - Day 22: 🏭 [Reactor Reboot](https://adventofcode.com/2021/day/22) -- [Day22.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day22.kt)
 - Day 23: 🐸 [Amphipod](https://adventofcode.com/2021/day/23) -- [Day23.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day23.kt)
 - Day 24: 🎰 [Arithmetic Logic Unit](https://adventofcode.com/2021/day/24) -- [Day24.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day24.kt)
+- Day 25: 🥒 [Sea Cucumber](https://adventofcode.com/2021/day/25) -- [Day25.kt](https://github.com/andilau/advent-of-code-2021/blob/main/src/main/kotlin/days/Day25.kt)
 
 ## Features
 
