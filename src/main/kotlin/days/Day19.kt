@@ -85,8 +85,8 @@ class Day19(val input: String) : Puzzle {
                         val offset = beacon - rotatedBeacon
                         val shiftedBeacons = rotatedBeacons.map { it + offset }.toSet()
                         if ((beacons intersect shiftedBeacons).count() >= 12) {
-                            println("Scanner $id matches scanner ${other.id}")
-                            println("vector = $offset")
+                            // println("Scanner $id matches scanner ${other.id}")
+                            // println("vector = $offset")
                             return other.copy(beacons = shiftedBeacons, offset = offset)
                         }
                     }
