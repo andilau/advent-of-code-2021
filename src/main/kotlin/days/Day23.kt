@@ -50,8 +50,6 @@ class Day23(val input: List<String>) : Puzzle {
                 if (layout.state() in done) continue
                 done.add(layout.state())
 
-                if (done.size % 100 == 0)
-                    println("energy = ${layout.energy} queue=${todo.size} visited=${done.size}")
                 with(layout) {
                     // move amphipods to room
                     for ((from, amphipod) in hallway.withIndex()) {
