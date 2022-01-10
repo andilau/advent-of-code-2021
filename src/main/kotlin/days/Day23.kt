@@ -8,7 +8,6 @@ import kotlin.math.abs
     url = "https://adventofcode.com/2021/day/23",
     date = Date(day = 23, year = 2021)
 )
-
 class Day23(val input: List<String>) : Puzzle {
 
     override fun partOne(): Int = Layout.parse(input).organizeWithLeastEnergy()

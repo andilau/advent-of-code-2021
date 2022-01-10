@@ -41,7 +41,7 @@ class Day14Test {
         fun `Molecule distribution with cycle should match`(): List<DynamicTest> =
             resultWithStep
                 .map { it.moleculeDistribution() }
-                .mapIndexed() { cycle, distribution ->
+                .mapIndexed { cycle, distribution ->
                     DynamicTest.dynamicTest("Molecule distribution with cycle $cycle should match $distribution") {
                         assertThat(Day14(example).countByMolecule(times = cycle)).isEqualTo(distribution)
                     }
@@ -52,7 +52,7 @@ class Day14Test {
         fun `Molecule count with cycle should match`(): List<DynamicTest> =
             resultWithStep
                 .map { it.moleculeCount() }
-                .mapIndexed() { cycle, count ->
+                .mapIndexed { cycle, count ->
                     DynamicTest.dynamicTest("Molecule count with cycle $cycle should match $count") {
                         assertThat(Day14(example).countMolecules(times = cycle)).isEqualTo(count)
                     }

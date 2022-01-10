@@ -45,7 +45,7 @@ class Day25Test {
             states
                 .map(String::lines)
                 .zipWithNext()
-                .mapIndexed() { i, (input, expected) ->
+                .mapIndexed { i, (input, expected) ->
                     DynamicTest.dynamicTest("Sea cucumbers appear on the opposite of the map if destination is empty $i") {
                         assertThat(Day25(input).stepAndList()).isEqualTo(expected)
                     }
@@ -56,7 +56,7 @@ class Day25Test {
             example.toSortedMap()
                 .toList()
                 .zipWithNext()
-                .map() { (prev, next) ->
+                .map { (prev, next) ->
                     DynamicTest.dynamicTest("Step: ${prev.first} -> ${next.first} ") {
                         val steps = next.first - prev.first
                         assertThat(Day25(prev.second).stepAndList(steps)).isEqualTo(next.second)

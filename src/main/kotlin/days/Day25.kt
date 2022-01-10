@@ -23,13 +23,13 @@ class Day25(val input: List<String>) : Puzzle {
             .move(SeaCucumber.SOUTH) { south() }
 
     private fun Point.east() = copy(x = (x + 1) % (max.x + 1))
-
     private fun Point.south() = copy(y = (y + 1) % (max.y + 1))
+
     private inline fun MutableMap<Point, SeaCucumber>.move(type: SeaCucumber, transition: Point.() -> Point) =
         this.apply {
             filterValues { it == type }
                 .keys
-                .associateWith { transition.invoke(it) }
+                .associateWith(transition)
                 .filterValues { new -> new !in this }
                 .forEach { (old, new) ->
                     this.remove(old)
@@ -52,8 +52,8 @@ class Day25(val input: List<String>) : Puzzle {
     }
 
     private fun parseSeafloor() = buildMap {
-        input.forEachIndexed() { y, row ->
-            row.forEachIndexed() { x, char ->
+        input.forEachIndexed { y, row ->
+            row.forEachIndexed { x, char ->
                 if (char in SeaCucumber.values().map(SeaCucumber::type))
                     put(Point(x, y), SeaCucumber.from(char))
             }

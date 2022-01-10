@@ -24,7 +24,7 @@ class Day7(input: String) : Puzzle {
         val min = minOrNull() ?: 0
         val max = maxOrNull() ?: 0
         return (min..max)
-            .minOfOrNull() { destination ->
+            .minOfOrNull { destination ->
                 sumOf { position ->
                     val distance = (destination - position).absoluteValue
                     energyByDistance.invoke(distance)

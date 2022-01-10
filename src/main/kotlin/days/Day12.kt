@@ -6,7 +6,6 @@ package days
     date = Date(day = 12, year = 2021)
 )
 class Day12(val input: List<String>) : Puzzle {
-
     private val links = input.parseInput()
 
     override fun partOne() =

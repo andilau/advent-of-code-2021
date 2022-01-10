@@ -25,7 +25,7 @@ class Day11Test {
                 .map { (step, nextstep) ->
                     val input = largeExampleGenerations.getValue(step)
                     val output = largeExampleGenerations.getValue(nextstep)
-                    DynamicTest.dynamicTest("Generation $step should generate Generation ${nextstep}") {
+                    DynamicTest.dynamicTest("Generation $step should generate Generation $nextstep") {
                         val actual: List<String> = Day11(input).step(nextstep - step)
                         assertThat(actual).isEqualTo(output)
                     }

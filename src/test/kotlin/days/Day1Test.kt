@@ -32,7 +32,7 @@ class Day1Test {
     @Nested
     @DisplayName("Part 2")
     inner class Part2 {
-        val measurements = """
+        private val measurements = """
             199  A      
             200  A B    
             208  A B C  

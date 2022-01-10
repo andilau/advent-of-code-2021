@@ -49,20 +49,18 @@ class Day4(input: List<String>) : Puzzle {
 
         private fun isBingo(number: Int) =
             winnerRanges
-                .filter { it.contains(numbers.indexOf(number)) }
-                .map { it.map { numbers[it] }.toSet() }
+                .filter { range -> range.contains(numbers.indexOf(number)) }
+                .map { range -> range.map { numbers[it] }.toSet() }
                 .any { marked.containsAll(it) }
 
         companion object {
-            fun from(input: String): BingoBoard {
-                return BingoBoard(
+            fun from(input: String) =
+                BingoBoard(
                     input
                         .trim()
                         .split(whitespaces)
                         .map(String::toInt)
-                        .toList()
                 )
-            }
 
             private val whitespaces = Regex("\\s+")
 

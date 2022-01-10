@@ -65,9 +65,9 @@ class Day19(val input: String) : Puzzle {
                 "XXX", "XXY", "XXZ", "XYX", "XYY", "XZZ", "YXX", "YYY", "ZZZ",
                 "XXXY", "XXYX", "XYXX", "XYYY"
             )
-                .forEach {
+                .forEach { dimensions ->
                     yield(
-                        it.fold(beacons) { p, c ->
+                        dimensions.fold(beacons) { p, c ->
                             when (c) {
                                 'X' -> p.map { it.rotateX() }.toSet()
                                 'Y' -> p.map { it.rotateY() }.toSet()
