@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew run --console=plain --quiet  --exclude-task test > result.txt
 
       - name: Preserve result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: result
           path: result.txt
