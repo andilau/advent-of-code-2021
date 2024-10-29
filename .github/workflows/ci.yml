@@ -22,11 +22,9 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 11
-          distribution: 'adopt'
+          distribution: adopt
+          cache: gradle
 
-      # Execute Gradle commands in GitHub Actions workflows
-      # => https://github.com/marketplace/actions/gradle-build-action
-      - name: Deletes the build directory
-        uses: gradle/actions/setup-gradle@v3
-        with:
-            arguments: build
+      - name: Build with Gradle
+        run: ./gradlew build
+
