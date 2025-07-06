@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
-    kotlin("jvm") version "2.1.21"
+    kotlin("jvm") version "2.2.0"
 }
 
 application {
@@ -22,21 +22,18 @@ dependencies {
     implementation("org.reflections:reflections:0.10.2")
     implementation("org.slf4j:slf4j-nop:2.0.17")
 
-    testApi("org.junit.jupiter:junit-jupiter-engine:5.13.1")
+    testApi("org.junit.jupiter:junit-jupiter-engine:5.13.3")
     testImplementation("org.assertj:assertj-core:3.27.3")
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
+    compilerOptions {
+        freeCompilerArgs.set(listOf("-Xjsr305=strict"))
+    }
     sourceSets.all {
         languageSettings {
             languageVersion = "2.0"
         }
-    }
-}
-
-tasks {
-    withType<KotlinCompile> {
-        kotlinOptions.freeCompilerArgs = listOf("-Xjsr305=strict")
     }
 }
